@@ -37,11 +37,55 @@ describe('AppController (e2e)', () => {
   it('/operaciones (GET)', () => {
     return request(app.getHttpServer())
       .get('/operaciones')
-      .query({ operacion: 'suma', a: 100, b: 100 })
+      .query({ operacion: 'resta', a: 10, b: 2 })
       .expect(200)
       .expect('Content-type', /application\/json/)
       .then((response) => {
-        expect(response.body.resultado).toBe(200);
+         expect(response.body.resultado).toBe(8);
       });
   });
+
+  it('/operaciones (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'multiplicacion', a: 3, b: 2 })
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+      .then((response) => {
+         expect(response.body.resultado).toBe(6);
+      });
+  });
+
+     it('/operaciones (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'division', a: 4, b: 2 })
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+      .then((response) => {
+         expect(response.body.resultado).toBe(2);
+      });
+  });
+
+      it('/operaciones (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'factorial', a: 4 })
+      .expect(200)
+      .expect('Content-type', /application\/json/)
+      .then((response) => {
+         expect(response.body.resultado).toBe(120);
+      });
+  })
+
+   it('/operaciones (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones')
+      .query({ operacion: 'sumas', a: 4 })
+      .expect(500)
+      .expect('Content-type', /application\/json/)
+      .then((response) => {
+         expect(response.body.resultado).toBe(undefined);
+      });
+  })
 });
