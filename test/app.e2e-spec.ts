@@ -88,4 +88,13 @@ describe('AppController (e2e)', () => {
          expect(response.body.resultado).toBe(undefined);
       });
   })
+  
+    it('/operaciones con error', () => {
+    return request(app.getHttpServer())
+      .get('/operaciones?operacion=division&a=2&b=0')
+      .expect(502)
+      .expect((res) =>
+        expect(res.body.mensaje).toBe('operacion no pudo ser calculada')
+      );
+  });
 });

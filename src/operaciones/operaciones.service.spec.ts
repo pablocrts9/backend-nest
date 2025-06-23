@@ -15,188 +15,95 @@ describe('OperacionesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-  //SUMA
-  it('operacion deberia sumar',()=> {
-    let a:any= 10; 
-    let b=30;
-    expect(service.operar('suma',a,b)).toBe(40);
 
-    a=-10;
-    b=50; 
-    expect(service.operar('suma',a,b)).toBe(40);
+ // SUMA
+  describe('suma', () => {
+    it('debería sumar correctamente', () => {
+      expect(service.operar('suma', 10, 30)).toBe(40);
+      expect(service.operar('suma', -10, 50)).toBe(40);
+      expect(service.operar('suma', Math.PI, 30)).toBeCloseTo(33.14, 2);
+    });
 
-    a=-10;
-    b=-40; 
-    expect(service.operar('suma',a,b)).not.toBe(-100);
+    it('debería lanzar error si "a" es null o undefined', () => {
+      expect(() => service.operar('suma', null as any, 50)).toThrow('El valor de a debe ser un numero');
+      expect(() => service.operar('suma', undefined as any, 50)).toThrow('El valor de a debe ser un numero');
+    });
+  });
 
-    a=Math.PI
-    b=30;
-    expect(service.operar('suma',a,b)).toBeCloseTo(33.14, 2);
+  // RESTA
+  describe('resta', () => {
+    it('debería restar correctamente', () => {
+      expect(service.operar('resta', 30, 30)).toBe(0);
+      expect(service.operar('resta', 50, -40)).toBe(90);
+    });
 
-    a=null;
-    b=50;
-    expect(service.operar('suma',a,b)).toBeNaN();
+    it('debería lanzar error si "a" es inválido', () => {
+      expect(() => service.operar('resta', null as any, 50)).toThrow();
+      expect(() => service.operar('resta', undefined as any, 50)).toThrow();
+    });
+  });
 
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('suma',a,b)
-    }).toThrow('El valor de a debe ser un numero');
-  })
-//Resta
-   it('operacion deberia restar',()=> {
-    let a:any= 30; 
-    let b=30;
-    expect(service.operar('resta',a,b)).toBe(0);
+  // MULTIPLICACIÓN
+  describe('multiplicacion', () => {
+    it('debería multiplicar correctamente', () => {
+      expect(service.operar('multiplicacion', 0, 30)).toBe(0);
+      expect(service.operar('multiplicacion', 3, 4)).toBe(12);
+      expect(service.operar('multiplicacion', 11, -2)).toBe(-22);
+    });
 
-    a=10;
-    b=-50; 
-    expect(service.operar('resta',a,b)).toBe(-40);
+    it('debería lanzar error si "a" o "b" no están definidos', () => {
+      expect(() => service.operar('multiplicacion', null as any, 50)).toThrow();
+      expect(() => service.operar('multiplicacion', 60, undefined)).toThrow();
+    });
+  });
 
-    a=-10;
-    b=-40; 
-    expect(service.operar('resta',a,b)).not.toBe(-100);
+  // DIVISIÓN
+  describe('division', () => {
+    it('debería dividir correctamente', () => {
+      expect(service.operar('division', 30, 30)).toBe(1);
+      expect(service.operar('division', 2, 4)).toBe(0.5);
+    });
 
-    a=Math.PI
-    b=30;
-    expect(service.operar('resta',a,b)).toBeCloseTo(33.14, 2);
+    it('debería lanzar error si división por cero', () => {
+      expect(() => service.operar('division', 10, 0)).toThrow('No se puede dividir por cero');
+    });
 
-    a=null;
-    b=50;
-    expect(service.operar('resta',a,b)).toBeNaN();
+    it('debería lanzar error si "a" es inválido', () => {
+      expect(() => service.operar('division', null as any, 50)).toThrow();
+    });
+  });
 
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('resta',a,b)
-    }).toThrow('El valor de a debe ser un numero');
-  })
-  //Multiplicacion
-   it('operacion deberia multiplicar',()=> {
-    let a:any= 0; 
-    let b:any=30;
-    expect(service.operar('multiplicar',a,b)).toBe(0);
+  // POTENCIA
+  describe('potencia', () => {
+    it('debería calcular correctamente', () => {
+      expect(service.operar('potencia', 2, 4)).toBe(16);
+    });
 
-    a=3;
-    b=4; 
-    expect(service.operar('multiplicar',a,b)).toBe(12);
+    it('debería lanzar error si "a" es inválido', () => {
+      expect(() => service.operar('potencia', null as any, 50)).toThrow();
+    });
+  });
 
-    a=11;
-    b=-2; 
-    expect(service.operar('multiplicar',a,b)).toBe(-22);
+  // FACTORIAL
+  describe('factorial', () => {
+    it('debería calcular factorial correctamente', () => {
+      expect(service.operar('factorial', 5)).toBe(120);
+      expect(service.operar('factorial', 0)).toBe(1);
+    });
 
-    a=-10;
-    b=-4; 
-    expect(service.operar('multiplicar',a,b)).not.toBe(-4);
+    it('debería lanzar error si el número es negativo', () => {
+      expect(() => service.operar('factorial', -3)).toThrow('El factorial no se puede calcular para enteros negativos');
+    });
+  });
 
-    a=null;
-    b=50;
-    expect(service.operar('multiplicar',a,b)).toBeNaN();
-
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('multiplicar',a,b)
-    }).toThrow('El valor de a debe ser un numero');
-
-    a=60;
-    b=undefined;
-    expect(()=> {
-      service.operar('multiplicar',a,b)
-    }).toThrow('El valor de a debe ser un numero');
-  })
-
-  //Division
-   it('operacion deberia dividir',()=> {
-    let a:any= 30; 
-    let b=30;
-    expect(service.operar('division',a,b)).toBe(1);
-
-    a=2;
-    b=4; 
-    expect(service.operar('division',a,b)).toBe(2);
-    
-    a=10;
-    b=0; 
-    expect(() => service.operar('division', a, b)).toThrow('No se puede dividir por cero');
-
-    a=-10;
-    b=-4; 
-    expect(service.operar('division',a,b)).not.toBe(-4);
-
-    a=null;
-    b=50;
-    expect(service.operar('division',a,b)).toThrow('El valor de a debe ser un numero');
-
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('division',a,b)
-    }).toThrow('El valor de a debe ser un número');
-  })
-  //Division
-   it('operacion deberia calcular potencias',()=> {
-    let a: any=2;; 
-    let b=4;
-    expect(service.operar('potencia',a,b)).toBe(8);
-    
-    a=-10;
-    b=-4; 
-    expect(service.operar('potencia',a,b)).not.toBe(-4);
-
-    a=null;
-    b=50;
-    expect(service.operar('potencia',a,b)).toThrow('El valor de a debe ser un numero');
-
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('potencia',a,b)
-    }).toThrow('El valor de a debe ser un número');
-  })
-//Potencias
-   it('operacion deberia calcular potencias',()=> {
-    let a: any=2;; 
-    let b=4;
-    expect(service.operar('potencia',a,b)).toBe(16);
-    
-    a=-10;
-    b=-4; 
-    expect(service.operar('potencia',a,b)).not.toBe(-4);
-
-    a=null;
-    b=50;
-    expect(service.operar('potencia',a,b)).toThrow('El valor de a debe ser un numero');
-
-    a=undefined;
-    b=50;
-    expect(()=> {
-      service.operar('potencia',a,b)
-    }).toThrow('El valor de a debe ser un número');
-  })
-//Factorial
-   it('operacion deberia calcular factoriale',()=> {
-    let a: any=2;
-    expect(service.operar('factorial', a)).toBe(2);
-    
-    a=-10;
-    expect(() => service.operar('factorial', a)).toThrow('El factorial no se puede calcular para enteros negativos');
-
-    a=null;
-    expect(service.operar('potencia',a)).toThrow('El valor de a debe ser un numero');
-
-    a=undefined;
-    expect(()=> {
-      service.operar('potencia',a)
-    }).toThrow('El valor de a debe ser un número');
-  })
-//Otras validaciones
-  it('debe lanzar error si la operación no es válida', () => {
+  // ERRORES DE OPERACIÓN
+  describe('errores de operación', () => {
+    it('debería lanzar error por operación inválida', () => {
       expect(() => service.operar('sumas', 1, 2)).toThrow('Operación no valida');
     });
 
- it('debe lanzar error si falta un número en suma', () => {
+    it('debería lanzar error si falta b en suma', () => {
       expect(() => service.operar('suma', 5)).toThrow('El valor de b debe ser un número');
     });
-
+  });
 });

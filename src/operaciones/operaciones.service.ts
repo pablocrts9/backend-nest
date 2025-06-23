@@ -48,7 +48,6 @@ export class OperacionesService {
     return resultado;
     }
 
-
     #validar(operacion: string, a: number, b?: number): boolean {
     if (a === undefined || typeof a !== 'number') {
       throw new Error('El valor de a debe ser un numero');
