@@ -5,7 +5,7 @@ pipeline {
         NPM_CONFIG_CACHE= "${WORKSPACE}/.npm"
         dockerImagePrefix = "us-west1-docker.pkg.dev/lab-agibiz/docker-repository"
         registry = "https://us-west1-docker.pkg.dev"
-        registryCredentials = "gcp-registry"
+        registryCredentials = "a3a04b7c-19f3-48d8-9e84-7d8f40143286"
     }
     stages{
         stage ("saludo a usuario") {
