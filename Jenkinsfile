@@ -1,7 +1,7 @@
 pipeline {
     agent any
     // escenarios -> escenario -> pasos
-    envirement {
+     environment {
         NPM_CONFIG_CACHE= "${WORKSPACE}/.npm"
     }
     stages{
