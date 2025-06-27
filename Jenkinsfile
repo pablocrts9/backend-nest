@@ -33,7 +33,7 @@ pipeline {
                         sh 'npm run test:cov'
                     }
                 }
-                stage("ejecucion de prueba"){
+                stage("ejecucion build"){
                     steps {
                         sh 'npm run build'
                     }
