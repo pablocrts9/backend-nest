@@ -43,15 +43,30 @@ pipeline {
                 }
             }
         }
-        stage ("build y push de imagen docker"){
+         stage ("build y push de imagen docker"){
             steps {
                 script {
                     docker.withRegistry("${registry}", registryCredentials ){
-                    sh "docker build -t backend-nest-pcc ."
-                    sh "docker tag backend-nest-pcc ${dockerImagePrefix}/backend-nest-pcc"
-                    sh "docker push ${dockerImagePrefix}/backend-nest-pcc"
+                        sh "docker build -t backend-nest-pcc ."
+                        sh "docker tag backend-nest-pcc ${dockerImagePrefix}/backend-nest-pcc"
+                        sh "docker tag backend-nest-pcc ${dockerImagePrefix}/backend-nest-pcc:${BUILD_NUMBER}"
+                        sh "docker push ${dockerImagePrefix}/backend-nest-pcc"
+                        sh "docker push ${dockerImagePrefix}/backend-nest-pcc:${BUILD_NUMBER}"
                     }
-                }           
+                }
+            }
+        }
+        stage ("actualizacion de kubernetes"){
+            agent {
+                docker {
+                    image 'alpine/k8s:1.30.2'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'gcp-kubeconfig']){
+                    sh "kubectl -n lab-cmd set image deployments/backend-nest-pcc backend-nest-pcc=${dockerImagePrefix}/backend-nest-pcc:${BUILD_NUMBER}"
+                }
             }
         }
     }
